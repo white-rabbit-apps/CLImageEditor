@@ -7,6 +7,8 @@
 
 #import "CLImageEditor.h"
 
+@class CLImageToolBase;
+
 @interface _CLImageEditorViewController : CLImageEditor
 <UIScrollViewDelegate, UIBarPositioningDelegate>
 {
@@ -23,7 +25,7 @@
 
 - (id)initWithImage:(UIImage*)image;
 
-
+- (void)setCurrentTool:(CLImageToolBase *)currentTool;
 - (void)fixZoomScaleWithAnimated:(BOOL)animated;
 - (void)resetZoomScaleWithAnimated:(BOOL)animated;
 

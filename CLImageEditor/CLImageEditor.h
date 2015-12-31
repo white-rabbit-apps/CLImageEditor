@@ -13,6 +13,8 @@
 @protocol CLImageEditorDelegate;
 @protocol CLImageEditorTransitionDelegate;
 
+@class CLImageToolBase;
+
 @interface CLImageEditor : UIViewController
 {
     
@@ -25,6 +27,7 @@
 - (id)initWithImage:(UIImage*)image delegate:(id<CLImageEditorDelegate>)delegate;
 - (id)initWithDelegate:(id<CLImageEditorDelegate>)delegate;
 
+- (void)setCurrentTool:(CLImageToolBase *)currentTool;
 - (void)showInViewController:(UIViewController<CLImageEditorTransitionDelegate>*)controller withImageView:(UIImageView*)imageView;
 
 @end

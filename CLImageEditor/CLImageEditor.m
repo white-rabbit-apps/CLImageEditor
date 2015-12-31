@@ -41,6 +41,12 @@
     
 }
 
+- (void)setCurrentTool:(CLImageToolBase *)currentTool
+{
+    
+}
+
+
 - (CLImageEditorTheme*)theme
 {
     return [CLImageEditorTheme theme];
