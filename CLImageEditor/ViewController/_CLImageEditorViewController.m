@@ -81,7 +81,16 @@
     UIBarButtonItem *rightBarButtonItem = nil;
     NSString *doneBtnTitle = [CLImageEditorTheme localizedString:@"CLImageEditor_DoneBtnTitle" withDefault:nil];
     
-    if(![doneBtnTitle isEqualToString:@"CLImageEditor_DoneBtnTitle"]){
+    // This override is specifically for the White Rabbit app and shouldn't be merged back into the main library
+    UIImage *checkImage = [UIImage imageNamed:@"check_white"];
+    if (checkImage) {
+        UIButton *check = [UIButton buttonWithType:UIButtonTypeCustom];
+        check.bounds = CGRectMake( 0, 0, 25, 20 );
+        [check setImage:checkImage forState:UIControlStateNormal];
+        [check addTarget:self action:@selector(pushedFinishBtn:) forControlEvents:UIControlEventTouchUpInside];
+        rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:check];
+    }
+    else if(![doneBtnTitle isEqualToString:@"CLImageEditor_DoneBtnTitle"]){
         rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:doneBtnTitle style:UIBarButtonItemStyleDone target:self action:@selector(pushedFinishBtn:)];
     }
     else{
@@ -407,7 +416,7 @@
     return nil;
 }
 
-#pragma mark- 
+#pragma mark-
 
 - (void)setMenuView
 {
