@@ -666,6 +666,20 @@
     [self setupToolWithToolInfo:view.toolInfo];
 }
 
+- (void)tappedCropViewCustomMethod:(CLToolbarMenuItem*)sender
+
+{
+    UIView *view = sender;
+    view.alpha = 0.2;
+    [UIView animateWithDuration:kCLImageToolAnimationDuration
+                     animations:^{
+                         view.alpha = 1;
+                     }
+     ];
+
+    [self setupToolWithToolInfo:view.toolInfo];
+}
+
 - (IBAction)pushedCancelBtn:(id)sender
 {
     _imageView.image = _originalImage;
