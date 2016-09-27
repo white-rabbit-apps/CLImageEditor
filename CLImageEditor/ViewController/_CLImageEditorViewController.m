@@ -47,15 +47,16 @@
 
 - (id)initWithImage:(UIImage *)image
 {
-    return [self initWithImage:image delegate:nil];
+    return [self initWithImage:image delegate:nil forceToCrop:NO];
 }
 
-- (id)initWithImage:(UIImage*)image delegate:(id<CLImageEditorDelegate>)delegate
+- (id)initWithImage:(UIImage*)image delegate:(id<CLImageEditorDelegate>)delegate forceToCrop:(BOOL)forceToCrop
 {
     self = [self init];
     if (self){
         _originalImage = [image deepCopy];
         self.delegate = delegate;
+        self.forceToCrop = forceToCrop;
     }
     return self;
 }
@@ -238,6 +239,10 @@
     }
     else{
         [self refreshImageView];
+    }
+    if (self.forceToCrop) {
+       [self tappedCropViewCustomMethod:
+       _menuView.subviews[0]];
     }
 }
 
@@ -585,6 +590,31 @@
 
     if(self.currentTool){
         UINavigationItem *item  = [[UINavigationItem alloc] initWithTitle:self.currentTool.toolInfo.title];
+        item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[CLImageEditorTheme localizedString:@"CLImageEditor_OKBtnTitle" withDefault:@"OK"] style:UIBarButtonItemStyleDone target:self action:@selector(pushedDoneBtn:)];
+
+        if (self.forceToCrop) {
+            UIImage *checkImage = [UIImage imageNamed:@"icon_close"];
+            if (checkImage) {
+                UIButton *check = [UIButton buttonWithType:UIButtonTypeCustom];
+                check.bounds = CGRectMake( 0, 0, 25, 25 );
+                [check setImage:checkImage forState:UIControlStateNormal];
+                [check addTarget:self action:@selector(pushedCloseBtn:) forControlEvents:UIControlEventTouchUpInside];
+                item.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:check];
+            } else {
+                item.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(pushedCloseBtn:)];
+            }
+        } else {
+            UIImage *backImage = [UIImage imageNamed:@"icon_previous"];
+            if (backImage) {
+                UIButton *check = [UIButton buttonWithType:UIButtonTypeCustom];
+                check.bounds = CGRectMake( 0, 0, 29, 24 );
+                [check setImage:backImage forState:UIControlStateNormal];
+                [check addTarget:self action:@selector(pushedCancelBtn:) forControlEvents:UIControlEventTouchUpInside];
+                item.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:check];
+            }else {
+                item.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithTitle:[CLImageEditorTheme localizedString:@"CLImageEditor_BackBtnTitle" withDefault:@"Back"] style:UIBarButtonItemStylePlain target:self action:@selector(pushedCancelBtn:)];
+            }
+        }
 
         // This override is specifically for the White Rabbit app and shouldn't be merged back into the main library
         UIImage *checkImage = [UIImage imageNamed:@"icon_save"];
@@ -598,16 +628,7 @@
             item.rightBarButtonItem  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(pushedDoneBtn:)];
         }
 
-        UIImage *backImage = [UIImage imageNamed:@"icon_previous"];
-        if (backImage) {
-            UIButton *check = [UIButton buttonWithType:UIButtonTypeCustom];
-            check.bounds = CGRectMake( 0, 0, 29, 24 );
-            [check setImage:backImage forState:UIControlStateNormal];
-            [check addTarget:self action:@selector(pushedCancelBtn:) forControlEvents:UIControlEventTouchUpInside];
-            item.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:check];
-        }else {
-            item.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithTitle:[CLImageEditorTheme localizedString:@"CLImageEditor_BackBtnTitle" withDefault:@"Back"] style:UIBarButtonItemStylePlain target:self action:@selector(pushedCancelBtn:)];
-        }
+
 
         [_navigationBar pushNavigationItem:item animated:(self.navigationController==nil)];
     }
