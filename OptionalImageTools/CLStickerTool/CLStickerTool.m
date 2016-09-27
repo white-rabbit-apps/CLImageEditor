@@ -123,7 +123,7 @@ static NSString* const kCLStickerToolDeleteIconName = @"deleteIconAssetsName";
 
 - (void)setStickerMenu
 {
-    CGFloat W = 70;
+    CGFloat W = 90;
     CGFloat H = _menuScroll.height;
     CGFloat x = 0;
 
@@ -140,7 +140,7 @@ static NSString* const kCLStickerToolDeleteIconName = @"deleteIconAssetsName";
         UIImage *image = [UIImage imageWithContentsOfFile:filePath];
         if(image){
             CLToolbarMenuItem *view = [CLImageEditorTheme menuItemWithFrame:CGRectMake(x, 0, W, H) target:self action:@selector(tappedStickerPanel:) toolInfo:nil];
-            view.iconImage = [image aspectFit:CGSizeMake(50, 50)];
+            view.iconImage = [image aspectFit:CGSizeMake(90, 90)];
             view.userInfo = @{@"filePath" : filePath};
 
             [_menuScroll addSubview:view];
@@ -232,7 +232,7 @@ static NSString* const kCLStickerToolDeleteIconName = @"deleteIconAssetsName";
         _deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
         [_deleteButton setImage:[tool imageForKey:kCLStickerToolDeleteIconName defaultImageName:@"btn_delete.png"] forState:UIControlStateNormal];
-        _deleteButton.frame = CGRectMake(0, 0, 16, 16);
+        _deleteButton.frame = CGRectMake(0, 0, 32, 32);
         _deleteButton.center = _imageView.frame.origin;
         [_deleteButton addTarget:self action:@selector(pushedDeleteBtn:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_deleteButton];
