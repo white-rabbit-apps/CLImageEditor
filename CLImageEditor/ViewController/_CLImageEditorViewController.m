@@ -83,7 +83,7 @@
     NSString *doneBtnTitle = [CLImageEditorTheme localizedString:@"CLImageEditor_DoneBtnTitle" withDefault:nil];
 
     // This override is specifically for the White Rabbit app and shouldn't be merged back into the main library
-    UIImage *checkImage = [UIImage imageNamed:@"check_white"];
+    UIImage *checkImage = [UIImage imageNamed:@"icon_next"];
     if (checkImage) {
         UIButton *check = [UIButton buttonWithType:UIButtonTypeCustom];
         check.bounds = CGRectMake( 0, 0, 25, 20 );
